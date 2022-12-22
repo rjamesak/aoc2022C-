@@ -36,7 +36,7 @@ namespace scratch2022
             var neededSpace = 30000000 - freeSpace;
             var potentialDirectories = device.DirectoryList.Where(d => d.TotalSize >= neededSpace).ToList();
             var sortedPotentials = potentialDirectories.OrderBy(d => d.TotalSize);
-            var smallestPotentialDirectory = potentialDirectories.First();
+            var smallestPotentialDirectory = sortedPotentials.First();
         }
     }
 }

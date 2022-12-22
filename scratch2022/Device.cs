@@ -92,12 +92,9 @@ namespace scratch2022
         private void _populateDirectorySizes(Directory directory)
         {
             var directories = directory.Directories;
-            if (directories.Count > 0)
+            foreach (var dir in directories)
             {
-                foreach (var dir in directories)
-                {
-                    _populateDirectorySizes(dir);
-                }
+                _populateDirectorySizes(dir);
             }
             directory.Size = directory.GetSumOfCurrentDirectory();
             directory.TotalSize = directory.GetSumOfCurrentAndSubDirectories();
