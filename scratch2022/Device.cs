@@ -10,12 +10,14 @@ namespace scratch2022
     {
         public Directory Root { get; set; }
         public Directory CurrentDirectory { get; set; }
+        public List<Directory> DirectoryList { get; set; }
         public Device()
         {
             Root = new Directory();
             Root.Name = "Root";
             Root.Parent = Root;
             CurrentDirectory = Root;
+            DirectoryList = new List<Directory>();
         }
 
 
@@ -82,22 +84,24 @@ namespace scratch2022
             }
         }
 
-        public void ListDirectorySizes()
+        public void PopulateDirectorySizes()
         {
-            _listDirectorySizes(Root);
+            _populateDirectorySizes(Root);
         }
 
-        private void _listDirectorySizes(Directory directory)
+        private void _populateDirectorySizes(Directory directory)
         {
             var directories = directory.Directories;
             if (directories.Count > 0)
             {
                 foreach (var dir in directories)
                 {
-                    _listDirectorySizes(dir);
+                    _populateDirectorySizes(dir);
                 }
             }
-            Console.WriteLine($"name: {directory.Name}, size: {directory.GetSumOfCurrentAndSubDirectories()}");
+            directory.Size = directory.GetSumOfCurrentDirectory();
+            directory.TotalSize = directory.GetSumOfCurrentAndSubDirectories();
+            DirectoryList.Add(directory);
         }
     }
 }

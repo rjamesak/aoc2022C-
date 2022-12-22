@@ -9,42 +9,34 @@ namespace scratch2022
 {
     class Program
     {
+        /// <summary>
+        /// AOC 2022 Day 7
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var dirA = new Directory();
-            var dirB = new Directory();
-            var dirC = new Directory();
-            var file1 = new File("file 1", 100);
-            var file2 = new File("file 2", 50);
-            var file3 = new File("file 3", 25);
-            var file4 = new File("file 4", 25);
-            dirB.AddFile(file3);
-            dirA.AddFile(file1);
-            dirA.AddFile(file2);
-            dirC.AddFile(file4);
-            dirC.Name = "C";
-            dirA.Name = "A";
-            dirB.Name = "B";
-            dirA.AddDirectory(dirB);
-            dirB.AddDirectory(dirC);
-            var dirASum = dirA.GetSumOfCurrentDirectory();
-            var dirBSum = dirB.GetSumOfCurrentDirectory();
-            var allDirSum = dirA.GetSumOfCurrentAndSubDirectories();
 
             var device = new Device();
 
             List<List<string>> inputLines = new List<List<string>>();
-            foreach (string line in System.IO.File.ReadLines(@"C:\Repos\scratch2022\scratch2022\TestInput.txt"))
+            foreach (string line in System.IO.File.ReadLines(@"C:\Repos\scratch2022\scratch2022\input.txt"))
             {
                 var splitLine = line.Split(' ').ToList();
                 inputLines.Add(splitLine);
             }
 
             device.BuildFileStructure(inputLines);
-            device.ListDirectorySizes();
+            device.PopulateDirectorySizes();
+            var smallDirectories = device.DirectoryList.Where(d => d.TotalSize <= 100000).ToList();
+            var bigDirectories = device.DirectoryList.Where(d => d.TotalSize >= 30000000).ToList();
+            var smallDirectorySum = smallDirectories.Sum(d => d.TotalSize);
             var rootSum = device.Root.GetSumOfCurrentDirectory();
             var rootAndSubsSum = device.Root.GetSumOfCurrentAndSubDirectories();
-            Console.Read();
+            var freeSpace = 70000000 - rootAndSubsSum;
+            var neededSpace = 30000000 - freeSpace;
+            var potentialDirectories = device.DirectoryList.Where(d => d.TotalSize >= neededSpace).ToList();
+            var sortedPotentials = potentialDirectories.OrderBy(d => d.TotalSize);
+            var smallestPotentialDirectory = potentialDirectories.First();
         }
     }
 }

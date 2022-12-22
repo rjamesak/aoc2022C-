@@ -10,6 +10,8 @@ namespace scratch2022
     {
         public string Name { get; set; }
         public Directory Parent { get; set; }
+        public long TotalSize { get; set; }
+        public long Size { get; set; }
         public List<Directory> Directories { get; set; }
         public List<File> Files;
 
